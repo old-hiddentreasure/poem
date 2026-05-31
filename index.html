@@ -508,19 +508,39 @@
                 // Skip the first title header line `# title`
                 if (trimmed.startsWith('#')) return;
                 
-                const lineDiv = document.createElement('div');
-                
                 if (trimmed === '') {
+                    const lineDiv = document.createElement('div');
                     lineDiv.className = 'poem-empty-line';
+                    wrapper.appendChild(lineDiv);
+                } else if (trimmed.startsWith('![') && trimmed.endsWith(')')) {
+                    // Parse markdown image: ![alt](url)
+                    const match = trimmed.match(/^!\[(.*?)\]\((.*?)\)$/);
+                    if (match) {
+                        const img = document.createElement('img');
+                        img.src = match[2];
+                        img.alt = match[1];
+                        img.style.maxWidth = '360px'; // "不要太大"
+                        img.style.width = '100%';
+                        img.style.display = 'block';
+                        img.style.margin = '40px auto 10px auto';
+                        img.style.borderRadius = '12px';
+                        img.style.boxShadow = 'var(--shadow-sm)';
+                        img.style.opacity = '0';
+                        img.style.transform = 'translateY(15px)';
+                        img.style.animation = 'fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+                        img.style.animationDelay = `${delay}s`;
+                        delay += 0.05;
+                        wrapper.appendChild(img);
+                    }
                 } else {
+                    const lineDiv = document.createElement('div');
                     lineDiv.className = 'poem-line';
                     lineDiv.textContent = trimmed;
                     // Apply micro-animation stagger delay
                     lineDiv.style.animationDelay = `${delay}s`;
                     delay += 0.05;
+                    wrapper.appendChild(lineDiv);
                 }
-                
-                wrapper.appendChild(lineDiv);
             });
             
             contentArea.appendChild(wrapper);

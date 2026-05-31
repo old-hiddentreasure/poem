@@ -17,6 +17,7 @@ mkdir -p cloudflare-dist
 # 2. 複製所有靜態網頁與詩歌資源至部署資料夾下
 cp index.html poems.json 3731304464704253357_n.jpg cloudflare-dist/
 cp -f *.md cloudflare-dist/ 2>/dev/null || true
+cp -f *.png cloudflare-dist/ 2>/dev/null || true
 
 # 3. 在複製出來的檔案中，動態替換頁尾宣告文字，不影響原始 index.html
 sed -i 's/適合託管於 Netlify 靜態網頁版格式/適合託管於 Cloudflare Pages 靜態網頁版格式/g' cloudflare-dist/index.html
